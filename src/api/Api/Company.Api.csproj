@@ -4,5 +4,14 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="8.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Company.Domain.csproj" />
+    <ProjectReference Include="..\Messages\Company.Messages.csproj" />
+  </ItemGroup>
+
 
 </Project>
