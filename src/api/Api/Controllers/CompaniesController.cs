@@ -20,7 +20,7 @@ namespace Company.Api.Controllers
 
         public CompaniesController(IMediator mediator)
         {
-            this._mediator = mediator;
+            _mediator = mediator;
         }
 
         [HttpGet]
@@ -49,13 +49,13 @@ namespace Company.Api.Controllers
         }
 
         [HttpGet]
-        [Route("isbn/{isbn}")]
+        [Route("isin/{isin}")]
         [Produces(typeof(Domain.Entities.Company))]
-        public async Task<ActionResult<Domain.Entities.Company>> FindCompanyByIsbn([FromRoute] string isbn)
+        public async Task<ActionResult<Domain.Entities.Company>> FindCompanyByIsbn([FromRoute] string isin)
         {
             try
             {
-                var result = await _mediator.Send(new FindCompanyByIsbnQuery(isbn));
+                var result = await _mediator.Send(new FindCompanyByIsinQuery(isin));
                 return new ActionResult<Domain.Entities.Company>(result);
             }
             catch (CompanyNotFoundException)
@@ -73,9 +73,9 @@ namespace Company.Api.Controllers
                 await _mediator.Send(new CreateCompanyCommand(company));
                 return Accepted();
             }
-            catch(IsbnExistsException)
+            catch(IsinExistsException)
             {
-                return IsbnConflict(company);
+                return IsinConflict(company);
             }
         }
 
@@ -89,15 +89,15 @@ namespace Company.Api.Controllers
                 await _mediator.Send(new UpdateCompanyCommand(company));
                 return Ok();
             }
-            catch(IsbnExistsException)
+            catch(IsinExistsException)
             {
-                return IsbnConflict(company);
+                return IsinConflict(company);
             }
         }
 
-        private ActionResult IsbnConflict(Domain.Entities.Company company)
+        private ActionResult IsinConflict(Domain.Entities.Company company)
         {
-            return Conflict($"Another company is already registered with the ISBN '{company.Isbn}'");
+            return Conflict($"Another company is already registered with the ISIN '{company.Isin}'");
         }
     }
 }
