@@ -51,7 +51,7 @@ namespace Company.Api.Controllers
         [HttpGet]
         [Route("isin/{isin}")]
         [Produces(typeof(Domain.Entities.Company))]
-        public async Task<ActionResult<Domain.Entities.Company>> FindCompanyByIsbn([FromRoute] string isin)
+        public async Task<ActionResult<Domain.Entities.Company>> FindCompanyByIsin([FromRoute] string isin)
         {
             try
             {

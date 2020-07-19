@@ -4,9 +4,8 @@ using System.Text;
 
 namespace Company.Domain.Entities
 {
-    public class Company
+    public class Company : EntityBase
     {
-        public int Id { get; set; }
         public string Isin { get; set; }
         public string Name { get; set; }
         public string Exchange { get; set; }
