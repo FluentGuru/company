@@ -32,7 +32,7 @@ namespace Company.Api
         {
             services.AddControllers();
             services.AddInfrastructure(Configuration);
-            services.AddApplication();
+            services.AddApplication(Configuration);
             services.AddJwt(Configuration);
         }
 

@@ -1,11 +1,12 @@
 ﻿using Company.Domain.Types;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Company.Messages
 {
-    public class AuthenticateCommand
+    public class AuthenticateCommand : IRequest
     {
         public AuthenticateCommand(Credentials credentials)
         {

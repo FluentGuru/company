@@ -2,8 +2,7 @@
 
 namespace Company.Domain.Options
 {
-    public class AdminOptions : Credentials
+    public class AuthOptions : Credentials
     {
-       
     }
 }

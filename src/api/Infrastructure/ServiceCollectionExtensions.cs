@@ -1,4 +1,5 @@
-﻿using Company.Domain.Services;
+﻿using Company.Domain.Options;
+using Company.Domain.Services;
 using Company.Infrastructure.Data;
 using Company.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
@@ -15,12 +16,12 @@ namespace Company.Infrastructure
         public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             var connectionString = configuration.GetValue<string>("ConnectionString");
-            services.AddDbContextPool<CompanyDbContext>(options => options.UseSqlServer(connectionString));
+            services.AddDbContextPool<CompanyDbContext>(options => options
+            .UseSqlServer(connectionString));
             services.AddTransient<IWareHouse, EfRepository>();
             services.AddTransient<IRepository, EfRepository>();
             services.AddSingleton<IHasher, Sha1Hasher>();
             services.AddSingleton<IDateTimeProvider, SystemDateTimeProvider>();
-
         }
     }
 }
