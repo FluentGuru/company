@@ -6,19 +6,16 @@ using Xunit;
 
 namespace Company.IntegrationTests
 {
-    public class LoginUserTests : IClassFixture<CompanyWebApplicationFactory<Startup>>
+    public class LoginUserTests : IntegrationTestsBase
     {
-        private readonly CompanyWebApplicationFactory<Startup> _factory;
-
-        public LoginUserTests(CompanyWebApplicationFactory<Startup> factory)
+        public LoginUserTests(CompanyWebApplicationFactory<Startup> factory) : base(factory)
         {
-            _factory = factory;
         }
 
         [Fact]
         public async Task ShouldReturnOkWhenSendingCorrectCredentials()
         {
-            var client = _factory.CreateClient();
+            var client = Factory.CreateClient();
             var credentials = new Credentials() { UserName = "superadmin", Password = "P@ss123" };
 
             var response = await client.PostAsync("/api/auth", credentials.ToJsonContent());
@@ -29,7 +26,7 @@ namespace Company.IntegrationTests
         [Fact]
         public async Task ShouldReturnNotFoundWhenSendingNotExisingUserName()
         {
-            var client = _factory.CreateClient();
+            var client = Factory.CreateClient();
             var credentials = new Credentials() { UserName = "super" };
 
             var response = await client.PostAsync("/api/auth", credentials.ToJsonContent());
@@ -40,7 +37,7 @@ namespace Company.IntegrationTests
         [Fact]
         public async Task ShouldReturnUnAuthorizedWhenSendingIncorrectPassword()
         {
-            var client = _factory.CreateClient();
+            var client = Factory.CreateClient();
             var credentials = new Credentials() { UserName = "superadmin", Password = "wrongpassword" };
 
             var response = await client.PostAsync("/api/auth", credentials.ToJsonContent());
