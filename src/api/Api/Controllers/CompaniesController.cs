@@ -7,6 +7,7 @@ using Company.Domain.Exceptions;
 using Company.Domain.Types;
 using Company.Messages;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,6 +15,7 @@ namespace Company.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CompaniesController : ControllerBase
     {
         private readonly IMediator _mediator;
