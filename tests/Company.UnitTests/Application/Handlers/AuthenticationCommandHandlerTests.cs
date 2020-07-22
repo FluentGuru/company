@@ -38,7 +38,6 @@ namespace Company.UnitTests.Application.Handlers
         public async Task ShouldThrowNotFoundIfUserNameDifferent()
         {
             var handler = GetHandler();
-
             await Assert.ThrowsAsync<UserNotFoundException>(() => handler.Handle(GetAuthCommand("john"), default));
         }
 
@@ -46,7 +45,6 @@ namespace Company.UnitTests.Application.Handlers
         public async Task ShouldThrowAuthenticationFailedIfPasswordDifferent()
         {
             var handler = GetHandler();
-
             await Assert.ThrowsAsync<AuthenticationFailedException>(() => handler.Handle(GetAuthCommand(password: "pa"), default));
         }
     }
