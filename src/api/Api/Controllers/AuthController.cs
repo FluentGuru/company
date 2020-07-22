@@ -30,6 +30,7 @@ namespace Company.Api.Controllers
             _jwt = jwt.Value;
         }
 
+        [HttpPost]
         public async Task<ActionResult<string>> Login([FromBody]Credentials credentials)
         {
             try
