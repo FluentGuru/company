@@ -26,7 +26,7 @@ namespace Company.Api
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Key))
                 };
             });
-            services.Configure<JwtOptions>(options => options = jwt);
+            services.Configure<JwtOptions>(options => configuration.GetSection("Jwt").Bind(options));
         }
     }
 }
