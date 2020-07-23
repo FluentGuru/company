@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Company.IntegrationTests
 {
-    public class LoginUserTests : IntegrationTestsBase
+    public class LoginUserTests : IntegrationTestsBase, IClassFixture<CompanyWebApplicationFactory<Startup>>
     {
         public LoginUserTests(CompanyWebApplicationFactory<Startup> factory) : base(factory)
         {

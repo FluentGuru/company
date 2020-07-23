@@ -31,7 +31,7 @@ namespace Company.IntegrationTests
         {
             services.Remove(services.SingleOrDefault(
                                 d => d.ServiceType == typeof(DbContextOptions<CompanyDbContext>)));
-            services.AddDbContext<CompanyDbContext>(options => options.UseInMemoryDatabase("CompanyMem"));
+            services.AddDbContext<CompanyDbContext>(options => options.UseInMemoryDatabase("CompanyMem" + this.GetHashCode()));
         }
 
         protected async Task AddCompanies(CompanyDbContext context, params Domain.Entities.Company[] companies)

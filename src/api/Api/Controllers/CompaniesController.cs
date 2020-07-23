@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Company.Domain.Entities;
 using Company.Domain.Exceptions;
@@ -72,8 +73,13 @@ namespace Company.Api.Controllers
         {
             try
             {
-                await _mediator.Send(new CreateCompanyCommand(company));
-                return Accepted();
+                if(ModelState.IsValid)
+                {
+                    await _mediator.Send(new CreateCompanyCommand(company));
+                    return Accepted();
+                }
+
+                return BadRequest();
             }
             catch(IsinExistsException)
             {
@@ -87,9 +93,14 @@ namespace Company.Api.Controllers
         {
             try
             {
-                company.Id = id;
-                await _mediator.Send(new UpdateCompanyCommand(company));
-                return Ok();
+                if(ModelState.IsValid)
+                {
+                    company.Id = id;
+                    await _mediator.Send(new UpdateCompanyCommand(company));
+                    return Ok();
+                }
+
+                return BadRequest();
             }
             catch(IsinExistsException)
             {
