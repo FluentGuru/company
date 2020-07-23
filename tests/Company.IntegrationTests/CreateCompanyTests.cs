@@ -18,11 +18,7 @@ namespace Company.IntegrationTests
         public async Task ShouldAcceptCompanyToCreate()
         {
             var client = await CreateAuthenticatedClient();
-            var company = GetCompanyToCreate();
-
-            var result = await client.PostAsync("/api/companies", company.ToJsonContent());
-
-            Assert.Equal(HttpStatusCode.Accepted, result.StatusCode);
+            await CreateDefaultCompany(client);
         }
 
         [Fact]
@@ -30,11 +26,9 @@ namespace Company.IntegrationTests
         {
             var client = await CreateAuthenticatedClient();
 
-            var company = GetCompanyToCreate();
-            var result = await client.PostAsync("/api/companies", company.ToJsonContent());
-            Assert.Equal(HttpStatusCode.Accepted, result.StatusCode);
+            var company = await CreateDefaultCompany(client);
 
-            result = await client.PostAsync("/api/companies", company.ToJsonContent());
+            var result = await client.PostAsync("/api/companies", company.ToJsonContent());
             Assert.Equal(HttpStatusCode.Conflict, result.StatusCode);
         }
 
@@ -60,18 +54,6 @@ namespace Company.IntegrationTests
             company.Website = "invalidwebsite";
             result = await client.PostAsync("/api/companies", company.ToJsonContent());
             Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
-        }
-
-        private Domain.Entities.Company GetCompanyToCreate()
-        {
-            return new Domain.Entities.Company()
-            {
-                Name = "Foo Inc.",
-                Exchange = "FOOBAR",
-                Isin = "FO000BAR0000",
-                Ticker = "FOOBAR",
-                Website = "http://www.foo.bar"
-            };
         }
     }
 }

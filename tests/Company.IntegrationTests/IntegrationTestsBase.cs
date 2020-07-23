@@ -40,6 +40,36 @@ namespace Company.IntegrationTests
             return client;
         }
 
+        protected async Task<Domain.Entities.Company> CreateDefaultCompany(HttpClient client)
+        {
+            var company = GetCompanyToCreate();
+
+            var result = await client.PostAsync("/api/companies", company.ToJsonContent());
+
+            Assert.Equal(HttpStatusCode.Accepted, result.StatusCode);
+
+            return company;
+        }
+
+        protected async Task<Domain.Entities.Company> FindCompanyById(HttpClient client, int id)
+        {
+            var response = await client.GetAsync("/api/companies/" + id);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            return await response.Content.FromJsonAsync<Domain.Entities.Company>();
+        }
+
+        protected Domain.Entities.Company GetCompanyToCreate()
+        {
+            return new Domain.Entities.Company()
+            {
+                Name = "Foo Inc.",
+                Exchange = "FOOBAR",
+                Isin = "FO000BAR0000",
+                Ticker = "FOOBAR",
+                Website = "http://www.foo.bar"
+            };
+        }
+
         
     }
 
