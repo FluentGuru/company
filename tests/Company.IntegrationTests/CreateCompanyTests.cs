@@ -43,7 +43,6 @@ namespace Company.IntegrationTests
         {
             var client = await CreateAuthenticatedClient();
 
-
             //Null or empty name
             var company = GetCompanyToCreate();
             company.Name = null;
