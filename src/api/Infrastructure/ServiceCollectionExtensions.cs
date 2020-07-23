@@ -15,9 +15,8 @@ namespace Company.Infrastructure
     {
         public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            var connectionString = configuration.GetValue<string>("ConnectionString");
-            services.AddDbContextPool<CompanyDbContext>(options => options
-            .UseSqlServer(connectionString));
+            services.AddDbContext<CompanyDbContext>(options => options
+            .UseSqlServer(configuration.GetValue<string>("ConnectionString")));
             services.AddTransient<IWareHouse, EfRepository>();
             services.AddTransient<IRepository, EfRepository>();
             services.AddSingleton<IHasher, Sha1Hasher>();

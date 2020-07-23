@@ -19,5 +19,8 @@ namespace Company.Domain.Services
     {
         public static Task<IEnumerable<T>> FetchAsync<T>(this IWareHouse wareHouse, Func<IQueryable<T>, IQueryable<T>> query) where T : EntityBase
             => wareHouse.FetchAsync(query);
+
+        public static Task<IEnumerable<T>> FetchAsync<T>(this IWareHouse wareHouse) where T : EntityBase
+            => wareHouse.FetchAsync<T>(query => query);
     }
 }

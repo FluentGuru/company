@@ -10,7 +10,7 @@ namespace Company.Application
     {
         public static void AddApplication(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddMediatR(typeof(ServiceCollectionExtensions).Assembly);
+            services.AddMediatR(typeof(ServiceCollectionExtensions));
             services.Configure<AuthOptions>(option => configuration.GetSection("Auth").Bind(option));
         }
     }

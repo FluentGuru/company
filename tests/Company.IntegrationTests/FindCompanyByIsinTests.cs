@@ -1,6 +1,4 @@
 ﻿using Company.Api;
-using Company.Infrastructure.Data;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -10,18 +8,18 @@ using Xunit;
 
 namespace Company.IntegrationTests
 {
-    public class FindCompanyByIdTests : IntegrationTestsBase, IClassFixture<CompanyWebApplicationFactory<Startup>>
+    public class FindCompanyByIsinTests : IntegrationTestsBase, IClassFixture<CompanyWebApplicationFactory<Startup>>
     {
-        public FindCompanyByIdTests(CompanyWebApplicationFactory<Startup> factory) : base(factory)
+        public FindCompanyByIsinTests(CompanyWebApplicationFactory<Startup> factory) : base(factory)
         {
         }
 
         [Fact]
-        public async Task ShouldReturnCompanyById()
+        public async Task ShouldFindCompanyByIsin()
         {
             var client = await CreateAuthenticatedClient();
 
-            var response = await client.GetAsync("/api/companies/1");
+            var response = await client.GetAsync("/api/companies/isin/US0378331005");
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             var company = await response.Content.FromJsonAsync<Domain.Entities.Company>();
@@ -29,11 +27,11 @@ namespace Company.IntegrationTests
         }
 
         [Fact]
-        public async Task ShouldReturnNotFoundIfIdDoesntExists()
+        public async Task ShouldReturnNotFoundIfIsinNotExists()
         {
             var client = await CreateAuthenticatedClient();
 
-            var response = await client.GetAsync("/api/companies/111111");
+            var response = await client.GetAsync("/api/companies/isin/NOTFOUND0000000");
 
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }

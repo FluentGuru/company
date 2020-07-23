@@ -1,6 +1,7 @@
 using Company.Api;
 using Company.Domain.Types;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -15,12 +16,7 @@ namespace Company.IntegrationTests
         [Fact]
         public async Task ShouldReturnOkWhenSendingCorrectCredentials()
         {
-            var client = Factory.CreateClient();
-            var credentials = new Credentials() { UserName = "superadmin", Password = "P@ss123" };
-
-            var response = await client.PostAsync("/api/auth", credentials.ToJsonContent());
-
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            await CreateAuthenticatedClient();
         }
 
         [Fact]

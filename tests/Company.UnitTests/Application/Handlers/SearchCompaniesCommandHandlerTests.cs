@@ -16,6 +16,18 @@ namespace Company.UnitTests.Application.Handlers
     public class SearchCompaniesCommandHandlerTests
     {
         [Fact]
+        public async Task ShouldReturnAllCompaniesIfFilterIsNullOrEmpty()
+        {
+            var handler = await GetSearchHandler();
+
+            var result = await handler.Handle(new SearchCompaniesQuery(null), default);
+            Assert.Equal(5, result.Count());
+
+            result = await handler.Handle(new SearchCompaniesQuery(new SearchCompaniesFilter()), default);
+            Assert.Equal(5, result.Count());
+        }
+
+        [Fact]
         public async Task ShouldSearchCompaniesEqualsTheName()
         {
             var handler = await GetSearchHandler();

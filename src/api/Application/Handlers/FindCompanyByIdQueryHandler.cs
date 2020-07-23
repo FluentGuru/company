@@ -22,7 +22,7 @@ namespace Company.Application.Handlers
         public async Task<Domain.Entities.Company> Handle(FindCompanyByIdQuery request, CancellationToken cancellationToken)
         {
             var company = await _wareHouse.FindAsync<Domain.Entities.Company>(c => c.Id == request.Id);
-            if(company == null)
+            if (company == null)
             {
                 throw new CompanyNotFoundException();
             }

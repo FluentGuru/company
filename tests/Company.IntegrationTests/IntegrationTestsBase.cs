@@ -1,10 +1,16 @@
 ﻿using Company.Api;
+using Company.Domain.Types;
 using Company.Infrastructure.Data;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using Xunit;
 
 namespace Company.IntegrationTests
@@ -18,30 +24,45 @@ namespace Company.IntegrationTests
 
         protected CompanyWebApplicationFactory<Startup> Factory { get; }
 
-        protected async Task AddCompanies(params Domain.Entities.Company[] companies)
+        protected async Task<HttpClient> CreateAuthenticatedClient()
         {
-            var context = Factory.Services.GetRequiredService<CompanyDbContext>();
-            context.AddRange(companies);
-            await context.SaveChangesAsync();
+            var client = Factory.CreateClient();
+            var credentials = new Credentials() { UserName = "superadmin", Password = "P@ss123" };
+
+            var response = await client.PostAsync("/api/auth", credentials.ToJsonContent());
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            var token = await response.Content.ReadAsStringAsync();
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            return client;
         }
 
-        protected Task AddSampleCompanies()
-            => AddCompanies(
-                GetCompany("Apple Inc.", "NASDAQ", "AAPL", "US0378331005", "http://www.apple.com"),
-                GetCompany("British Airways", "Plc Pink Sheets", "BAIRY", "US1104193065"),
-                GetCompany("Heineken NV", "Euronext Amsterdam", "HEIA", "NL0000009165"),
-                GetCompany("Panasonic Corp", "Tokyo Stock Exchange", "6752", "JP3866800000", "http://www.panasonic.co.jp"),
-                GetCompany("Porsche Automobil", "Deutsche Börse", "PAH3", "DE000PAH0038", "https://www.porsche.com/")
-                );
+        
+    }
 
-        protected Domain.Entities.Company GetCompany(string name = "", string isin = "", string exchange = "", string ticker = "", string website = "")
-            => new Domain.Entities.Company()
-            {
-                Name = name,
-                Isin = isin,
-                Exchange = exchange,
-                Ticker = ticker,
-                Website = website
-            };
+    public static class HttpClientExtensions
+    {
+        public async static Task<HttpResponseMessage> GetWithQueryAsync(this HttpClient client, string uri, object query)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, uri + ToQueryString(query));
+            return await client.SendAsync(request);
+        }
+
+        private static string ToQueryString(object obj)
+        {
+            var parameters = obj.GetType().GetProperties().ToDictionary(p => p.Name, p => p.GetValue(obj));
+            return "?" + HttpUtility.UrlEncode(
+                string.Join(
+                    "&", 
+                    parameters.Where(
+                        p => !string.IsNullOrEmpty(
+                            p.Value?.ToString()))
+                    .Select(
+                        p => 
+                        $"{p.Key}={p.Value}")));
+        }
     }
 }

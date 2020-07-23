@@ -11,10 +11,11 @@ namespace Company.Api
     {
         public static void AddJwt(this IServiceCollection services, IConfiguration configuration)
         {
-            var jwt = configuration.GetValue<JwtOptions>("Jwt");
+            
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
+                var jwt = configuration.GetSection("Jwt").Get<JwtOptions>();
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
