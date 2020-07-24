@@ -12,24 +12,24 @@ Showcase of a comprehensive API with end-to-end on asp.net core
 - Docker compose deploy
 
 # Stack
-.Net Core 3.1
-Asp .Net Core 3.1
-EntityFrameworkCore 3
-MediaTr
-FluentValidation
-Docker for windows
-Docker compose
-XUnit
-NSubstitute
-SQL Server 2019
+- .Net Core 3.1
+- Asp .Net Core 3.1
+- EntityFrameworkCore 3
+- MediaTr
+- FluentValidation
+- Docker for windows
+- Docker compose
+- XUnit
+- NSubstitute
+- SQL Server 2019
 
 # Tools
-dotnet cli
-Docker for Windows
-Docker compose
-Visual Studio 2019
-Visual Studio Code
-Sql Server Management Studio
+- dotnet cli
+- Docker for Windows
+- Docker compose
+- Visual Studio 2019
+- Visual Studio Code
+- Sql Server Management Studio
 
 
 # Getting started
