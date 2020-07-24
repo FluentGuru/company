@@ -26,6 +26,20 @@
       },
       "applicationUrl": "https://localhost:5001;http://localhost:5000"
     },
+    "Production": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "api",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Production",
+        "ConnectionString": "Server=WINDOWS-B21L2V2;Database=Company;Trusted_Connection=True;App=CompanyAPI",
+        "Jwt__Issuer": "Company",
+        "Jwt__Key": "0d734a1dc94fe5a914185f45197ea846",
+        "Auth__Username": "superadmin",
+        "Auth__Password": "P@ss123"
+      },
+      "applicationUrl": "https://localhost:5001;http://localhost:5000"
+    },
     "Docker": {
       "commandName": "Docker",
       "launchBrowser": true,

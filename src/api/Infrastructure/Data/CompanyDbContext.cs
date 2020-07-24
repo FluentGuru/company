@@ -10,6 +10,11 @@ namespace Company.Infrastructure.Data
     {
         public CompanyDbContext(DbContextOptions<CompanyDbContext> options) : base(options)
         {
+            try
+            {
+                Database.Migrate();
+            }
+            catch(InvalidOperationException) { }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
